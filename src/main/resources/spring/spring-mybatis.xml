@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 自动扫描 -->
+    <context:component-scan base-package="com.unionpay.taskmonitor"/>
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:properties/config.properties" />
+    </bean>
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${driverClasss}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <!-- Connection Pooling Info -->
+        <property name="maxWait" value="${filter.common.maxWait}"/>
+        <property name="initialSize" value="${filter.common.initialSize}"/>
+        <property name="maxActive" value="${filter.common.maxActive}"/>
+        <property name="minIdle" value="${filter.common.minIdle}"/>
+        <property name="defaultAutoCommit" value="${filter.common.defaultAutoCommit}"/>
+        <property name="timeBetweenEvictionRunsMillis"
+                  value="${filter.common.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${filter.common.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${filter.common.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${filter.common.removeAbandonedTimeout}"/>
+        <property name="logAbandoned" value="${filter.common.logAbandoned}"/>
+        <property name="testWhileIdle" value="${filter.common.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${filter.common.testOnBorrow}"/>
+        <property name="testOnReturn" value="${filter.common.testOnReturn}"/>
+        <property name="validationQuery" value="${filter.common.validationQuery}"/>
+    </bean>
+
+    <!-- session factory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:sqlmap/*.xml"/>
+    </bean>
+
+    <!-- mapper interface -->
+    <!-- for user database -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.unionpay.taskmonitor.service.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+</beans>

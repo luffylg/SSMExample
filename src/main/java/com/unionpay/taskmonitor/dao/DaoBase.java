@@ -1,14 +1,9 @@
 package com.unionpay.taskmonitor.dao;
 
-import com.unionpay.taskmonitor.servlet.SpiderStatusServlet;
 import com.unionpay.taskmonitor.utils.PropertiesHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,7 +14,7 @@ import java.util.Properties;
  */
 public class DaoBase {
     public static final Logger LOGGER = LoggerFactory.getLogger(DaoBase.class);
-    Properties properties = new PropertiesHandle().handleProperty("config.properties");
+    Properties properties = new PropertiesHandle().handleProperty("properties/config.properties");
     private String user;
     private String password;
     private String url;

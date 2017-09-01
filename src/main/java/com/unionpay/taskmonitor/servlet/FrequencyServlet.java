@@ -33,7 +33,7 @@ public class FrequencyServlet extends HttpServlet {
 
         String ip = req.getParameter("ip");
         if (ip == null || Objects.equals(ip, "")){
-            ip = getRemoteAddress(req);
+//            ip = getRemoteAddress(req);
 //            ip = req.getRemoteAddr();
         }
         String macadress = req.getParameter("macadress");
@@ -61,18 +61,18 @@ public class FrequencyServlet extends HttpServlet {
         }
     }
 
-    public String getRemoteAddress(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
+//    public String getRemoteAddress(HttpServletRequest request) {
+//        String ip = request.getHeader("x-forwarded-for");
+//        if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
+//            ip = request.getHeader("Proxy-Client-IP");
+//        }
+//        if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
+//            ip = request.getHeader("WL-Proxy-Client-IP");
+//        }
+//        if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
+//            ip = request.getRemoteAddr();
+//        }
+//        return ip;
+//    }
 
 }

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.unionpay.taskmonitor.service.dao.IpConnectionMapper" >
+  <resultMap id="BaseResultMap" type="com.unionpay.taskmonitor.service.model.IpConnection" >
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="macAdress" property="macadress" jdbcType="VARCHAR" />
+    <result column="lastReqTime" property="lastreqtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ip, macAdress, lastReqTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.unionpay.taskmonitor.service.model.IpConnectionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ipconnection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <insert id="insert" parameterType="com.unionpay.taskmonitor.service.model.IpConnection" >
+    insert into ipconnection (ip, macAdress, lastReqTime
+      )
+    values (#{ip,jdbcType=VARCHAR}, #{macadress,jdbcType=VARCHAR}, #{lastreqtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.unionpay.taskmonitor.service.model.IpConnection" >
+    insert into ipconnection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="macadress != null" >
+        macAdress,
+      </if>
+      <if test="lastreqtime != null" >
+        lastReqTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="macadress != null" >
+        #{macadress,jdbcType=VARCHAR},
+      </if>
+      <if test="lastreqtime != null" >
+        #{lastreqtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ipconnection
+    <set >
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.macadress != null" >
+        macAdress = #{record.macadress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastreqtime != null" >
+        lastReqTime = #{record.lastreqtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ipconnection
+    set ip = #{record.ip,jdbcType=VARCHAR},
+      macAdress = #{record.macadress,jdbcType=VARCHAR},
+      lastReqTime = #{record.lastreqtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <!-- 自定义 -->
+  <delete id="deleteExpire" parameterType="String">
+    <![CDATA[DELETE FROM ipconnection
+    WHERE lastReqTime < #{s}]]>
+  </delete>
+</mapper>

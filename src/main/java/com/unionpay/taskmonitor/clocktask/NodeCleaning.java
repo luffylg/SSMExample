@@ -1,8 +1,11 @@
 package com.unionpay.taskmonitor.clocktask;
 
 import com.unionpay.taskmonitor.dao.IpConnectionDao;
+import com.unionpay.taskmonitor.service.service.IpConnectionService;
+import com.unionpay.taskmonitor.service.service.impl.IpConnectionServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
 import java.util.concurrent.Executors;
@@ -17,17 +20,17 @@ public class NodeCleaning {
     public ScheduledExecutorService service = Executors
             .newSingleThreadScheduledExecutor();
 
+    private IpConnectionService ipConnectionService=new IpConnectionServiceImpl();
+
     //隔一段时间定期清理过期的节点
     public void cleanExpireNode(){
         Runnable runnable = new Runnable() {
             public void run() {
                 try {
-                    IpConnectionDao ipConnectionDao = new IpConnectionDao();
                     LOGGER.info("cleaning expiring nodes");
-                    ipConnectionDao.cleantable();
-                    ipConnectionDao.close();
+                    ipConnectionService.cleantable();
                 } catch (Exception e){
-                    LOGGER.error(e.getMessage());
+                    LOGGER.error(e.toString());
                 }
             }
         };
