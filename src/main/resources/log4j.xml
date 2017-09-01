@@ -13,13 +13,16 @@
         <param name="BufferSize" value="8192"/>
         <appender-ref ref="CONSOLE"/>
     </appender>
-    <appender name="DEFAULT_FILE" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="eagle-log/Logger-out.log"/>
-        <param name="Append" value="true"/>
+    <appender name="DEFAULT_FILE" class="com.unionpay.taskmonitor.utils.CustomDailyRollingFileAppender">
+        <!-- 自定义日志输出路径和名称 -->
+        <param name="file" value="taskmonitor/taskmonitor-log/Logger-out.log" />
+        <!-- 自定义历史日志文件后缀名 -->
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <!-- 自定义日志文件总数量，大于这个数量，自动删除 -->
+        <param name="maxBackupIndex" value="4" />
+        <param name="append" value="true" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern"
-                   value="%d{ABSOLUTE} %-5p [Thread:%t] [%C:%L] [Function:%M]:%m%n"/>
+            <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [Thread:%t] [%C:%L] [Function:%M]:%m%n" />
         </layout>
     </appender>
     <logger name="org.apache.http">
